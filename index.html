@@ -227,6 +227,74 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 @keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
 .merge-result{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ember);
   border:1px solid var(--ember-line);border-radius:10px;padding:10px 14px;margin-top:10px;text-align:center}
+
+/* ---- INTAKE OVERLAY ---- */
+.intake-wall{position:fixed;inset:0;z-index:180;background:var(--canvas);display:flex;flex-direction:column;max-width:480px;margin:0 auto;overflow:hidden}
+.intake-wall.hidden{display:none}
+.intake-hd{flex-shrink:0;padding:calc(env(safe-area-inset-top) + 20px) 20px 14px;background:var(--bg);border-bottom:1px solid var(--line);position:relative}
+.intake-step-label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ember);margin-bottom:8px}
+.intake-title{font-family:var(--cond);font-size:24px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
+.intake-prog-bar{height:3px;background:var(--line);border-radius:2px;margin-top:12px}
+.intake-prog-fill{height:100%;background:var(--ember);border-radius:2px;transition:width .4s ease}
+.intake-close{position:absolute;right:18px;top:calc(env(safe-area-inset-top) + 18px);width:36px;height:36px;display:grid;place-items:center;color:var(--dim);font-size:18px;border-radius:50%;background:var(--surface)}
+.intake-close:active{color:var(--ink)}
+.intake-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 20px 0;overscroll-behavior-y:contain}
+.intake-ft{flex-shrink:0;display:flex;gap:10px;padding:14px 20px calc(20px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--line)}
+.intake-ft .btn{flex:1;padding:16px}
+.intake-section-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;margin-top:20px;display:block}
+.intake-section-label:first-child{margin-top:0}
+.intake-text-input{width:100%;background:var(--surface);border:1px solid var(--line-2);color:var(--ink);font-family:var(--body);font-size:15px;padding:13px;border-radius:12px;appearance:none;-webkit-appearance:none}
+.intake-text-input:focus{outline:none;border-color:var(--ember-line)}
+.intake-textarea{width:100%;background:var(--surface);border:1px solid var(--line-2);color:var(--ink);font-family:var(--body);font-size:14px;padding:13px;border-radius:12px;min-height:80px;resize:vertical}
+.intake-textarea:focus{outline:none;border-color:var(--ember-line)}
+.chip-group{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.i-chip{font-family:var(--mono);font-size:12px;letter-spacing:.03em;padding:9px 15px;border-radius:999px;border:1px solid var(--line-2);color:var(--dim);cursor:pointer;transition:.15s;user-select:none;-webkit-user-select:none}
+.i-chip.on{background:var(--ember);border-color:var(--ember);color:#000;font-weight:600}
+.i-chip:active{transform:scale(.94)}
+.intake-num-row{display:flex;gap:10px;align-items:center;margin-bottom:20px}
+.intake-num-row input{flex:1;background:var(--surface);border:1px solid var(--line-2);color:var(--ink);font-family:var(--body);font-size:15px;padding:13px;border-radius:12px;appearance:none;-webkit-appearance:none}
+.intake-num-row input:focus{outline:none;border-color:var(--ember-line)}
+.intake-num-row .unit{font-family:var(--mono);font-size:12px;color:var(--dim)}
+.intake-date-input{width:100%;background:var(--surface);border:1px solid var(--line-2);color:var(--ink);font-family:var(--body);font-size:15px;padding:13px;border-radius:12px;margin-bottom:20px;appearance:none;-webkit-appearance:none;color-scheme:dark}
+.intake-date-input:focus{outline:none;border-color:var(--ember-line)}
+.intake-mb{margin-bottom:20px}
+
+/* Plan tab */
+.plan-create-card{background:var(--surface);border:1px solid var(--line-2);border-radius:20px;padding:32px 24px;text-align:center;margin:8px 0}
+.plan-create-card h3{font-family:var(--cond);font-size:22px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+.plan-create-card p{color:var(--dim);font-size:14px;line-height:1.6;margin-bottom:20px}
+.plan-coach-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:10px;padding:15px;border-radius:14px;background:var(--surface);border:1px solid var(--line-2);color:var(--ink);font-size:14px;font-weight:500}
+.plan-coach-btn:active{background:var(--elevated)}
+.plan-replace-btn{color:var(--dim);font-size:13px;font-family:var(--mono);letter-spacing:.04em;margin-top:6px}
+
+/* ---- COACH OVERLAY ---- */
+.coach-overlay{position:fixed;inset:0;z-index:160;background:var(--canvas);display:none;flex-direction:column;max-width:480px;margin:0 auto}
+.coach-overlay.open{display:flex}
+.coach-hd{flex-shrink:0;display:flex;align-items:center;gap:14px;padding:calc(env(safe-area-inset-top) + 16px) 18px 14px;background:var(--bg);border-bottom:1px solid var(--line)}
+.coach-back{width:38px;height:38px;display:grid;place-items:center;color:var(--dim);border-radius:50%;background:var(--surface);flex-shrink:0}
+.coach-back:active{color:var(--ink)}
+.coach-hd-info{flex:1}
+.coach-hd-title{font-family:var(--cond);font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.coach-hd-sub{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--ember);margin-top:2px}
+.coach-msgs{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;padding:16px 16px 8px;display:flex;flex-direction:column;gap:12px}
+.coach-msg{max-width:88%;padding:11px 14px;border-radius:16px;font-size:14px;line-height:1.55}
+.coach-msg.user{background:var(--ember);color:#000;align-self:flex-end;border-bottom-right-radius:4px;font-weight:500}
+.coach-msg.ai{background:var(--surface);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px;border:1px solid var(--line-2)}
+.coach-msg.ai code{font-family:var(--mono);font-size:12px;background:var(--elevated);padding:2px 6px;border-radius:4px}
+.coach-msg.ai pre{background:var(--elevated);border:1px solid var(--line-2);border-radius:10px;padding:12px;margin:8px 0;overflow-x:auto}
+.coach-msg.ai pre code{background:none;padding:0}
+.coach-typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;background:var(--surface);border:1px solid var(--line-2);border-radius:16px;border-bottom-left-radius:4px}
+.coach-typing span{width:6px;height:6px;border-radius:50%;background:var(--ember);animation:blink 1.4s infinite}
+.coach-typing span:nth-child(2){animation-delay:.2s}
+.coach-typing span:nth-child(3){animation-delay:.4s}
+.coach-bar{flex-shrink:0;display:flex;align-items:flex-end;gap:10px;padding:10px 14px;border-top:1px solid var(--line);background:var(--canvas)}
+.coach-input{flex:1;background:var(--surface);border:1px solid var(--line-2);color:var(--ink);font-family:var(--body);font-size:15px;padding:12px 14px;border-radius:22px;resize:none;min-height:44px;max-height:120px;line-height:1.4;overflow-y:auto}
+.coach-input:focus{outline:none;border-color:var(--ember-line)}
+.coach-send{width:42px;height:42px;display:grid;place-items:center;background:var(--ember);border-radius:50%;color:#000;flex-shrink:0;transition:.15s}
+.coach-send:active{transform:scale(.9)}
+.coach-send:disabled{opacity:.4}
+.coach-do-it{display:flex;align-items:center;gap:8px;margin-top:8px;padding:10px 14px;border:1px solid var(--ember-line);border-radius:10px;background:var(--ember-soft);font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ember);cursor:pointer;width:100%}
+.coach-do-it:active{background:var(--ember);color:#000}
 </style>
 </head>
 <body>
@@ -251,6 +319,41 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
       <div class="auth-toggle"><button id="goLogin">Back to sign in</button></div>
     </div>
     <div id="authCheck" style="display:none"><div style="text-align:center;font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.06em;padding:20px" id="authCheckMsg">Loading…</div></div>
+  </div>
+</div>
+
+<!-- ===== INTAKE OVERLAY ===== -->
+<div id="intakeOverlay" class="intake-wall hidden">
+  <div class="intake-hd">
+    <div class="intake-step-label" id="intakeEyebrow">Step 1 of 6</div>
+    <div class="intake-title" id="intakeStepTitle">Your Event</div>
+    <div class="intake-prog-bar"><div class="intake-prog-fill" id="intakeProgFill" style="width:16.7%"></div></div>
+    <button class="intake-close" id="intakeCloseBtn" title="Close">✕</button>
+  </div>
+  <div class="intake-body" id="intakeBody"></div>
+  <div class="intake-ft">
+    <button class="btn" id="intakeBackBtn" style="display:none">Back</button>
+    <button class="btn ember" id="intakeNextBtn">Next</button>
+  </div>
+</div>
+
+<!-- ===== COACH OVERLAY ===== -->
+<div id="coachOverlay" class="coach-overlay">
+  <div class="coach-hd">
+    <button class="coach-back" id="coachCloseBtn" aria-label="Close coach">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    </button>
+    <div class="coach-hd-info">
+      <div class="coach-hd-title">Coach</div>
+      <div class="coach-hd-sub" id="coachHdSub">Ask me anything</div>
+    </div>
+  </div>
+  <div class="coach-msgs" id="coachMsgs"></div>
+  <div class="coach-bar" id="coachBar">
+    <textarea class="coach-input" id="coachInput" placeholder="Ask Coach…" rows="1" autocomplete="off"></textarea>
+    <button class="coach-send" id="coachSendBtn" disabled>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
   </div>
 </div>
 
@@ -290,47 +393,48 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 <section class="view" id="view-plan">
   <div class="sec-head"><div class="sec-eyebrow">Your training plan</div><div class="sec-title">Plan</div></div>
 
-  <div class="block warn-block" id="planWarnCard">
-    <h3>Before uploading</h3>
-    <p>Your plan must be a PDF in the <b>same format</b> as the original HyperBeast plan document. A different layout may parse incompletely or fail.</p>
-    <p><b>Uploading a new plan updates today onwards only</b> — your past runs and completed ticks are always kept.</p>
-  </div>
-
-  <div id="planSummary" style="display:none">
-    <div class="block">
-      <h3 id="planSumName">Plan</h3>
-      <p id="planSumMeta" style="margin-top:6px"></p>
-    </div>
-  </div>
-
+  <!-- No plan: create CTA -->
   <div id="planNoData">
-    <div class="plan-empty-card">
-      <h3>No plan loaded</h3>
-      <p>Upload a PDF to populate the full app — schedule, strategy, strength, fuel &amp; race content all extracted automatically.</p>
+    <div class="plan-create-card">
+      <h3>No plan yet</h3>
+      <p>Answer a few questions and Claude will craft your personalised training plan — schedule, strategy, nutrition &amp; race content.</p>
+      <button class="btn ember" onclick="openIntake()">Create plan</button>
     </div>
   </div>
 
-  <div id="planParsing" style="display:none">
+  <!-- Plan exists: summary + actions -->
+  <div id="planExists" style="display:none">
+    <div class="block accent" style="margin-bottom:12px">
+      <h3 id="planSumName">Plan</h3>
+      <p id="planSumMeta" style="margin-top:6px;font-size:13px;color:var(--dim)"></p>
+    </div>
+    <button class="plan-coach-btn" id="openCoachBtn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Chat with Coach
+    </button>
+    <button class="btn plan-replace-btn" onclick="openIntake()">Create / Replace plan</button>
+  </div>
+
+  <!-- Generating spinner -->
+  <div id="planGenerating" style="display:none">
     <div class="block accent">
-      <h3>Parsing your plan…</h3>
-      <p>This takes ~20–30 seconds. Claude is reading the PDF and extracting your full schedule and content.</p>
+      <h3>Generating your plan…</h3>
+      <p>Claude is crafting your personalised schedule, strategy, nutrition and race plan. This takes about 30 seconds.</p>
       <div class="parse-anim"><span></span><span></span><span></span></div>
     </div>
   </div>
 
+  <!-- Preview + DO IT commit -->
   <div id="planPreview" style="display:none">
     <div class="block accent">
       <h3 id="previewTitle">Plan ready</h3>
-      <p id="previewMeta" style="margin-top:6px"></p>
+      <p id="previewMeta" style="margin-top:6px;font-size:13px;color:var(--dim)"></p>
     </div>
-    <div id="mergeInfo" class="merge-result" style="display:none" id="mergeInfo"></div>
+    <div id="mergeInfo" class="merge-result" style="display:none"></div>
     <input type="text" class="do-it-field" id="doItInput" placeholder="Type DO IT to confirm…" autocomplete="off">
     <button class="btn ember" id="commitPlanBtn">Commit plan</button>
     <button class="btn" id="cancelPlanBtn">Cancel</button>
   </div>
-
-  <input type="file" id="pdfInput" accept=".pdf,application/pdf" style="display:none">
-  <button class="btn" id="uploadPlanBtn" style="margin-top:8px">Upload plan PDF</button>
 </section>
 
 <nav class="nav" id="nav">
@@ -726,7 +830,7 @@ function renderWeek(){
     document.getElementById('todayJump').style.display='none';
     document.getElementById('prevWk').disabled=true;
     document.getElementById('nextWk').disabled=true;
-    document.getElementById('dayList').innerHTML='<div class="plan-empty-card"><h3>No plan loaded</h3><p>Go to the <b>Plan</b> tab to upload your training plan PDF.</p></div>';
+    document.getElementById('dayList').innerHTML='<div class="plan-empty-card"><h3>No plan yet</h3><p>Go to the <b>Plan</b> tab to create your training plan.</p></div>';
     updateProgress(0,0);
     return;
   }
@@ -868,7 +972,7 @@ function renderBlocksHTML(blocks, eyebrow, title, sub){
   if(sub) html+='<div class="sec-sub">'+esc(sub)+'</div>';
   html+='</div>';
   if(!blocks||!blocks.length){
-    html+='<div class="plan-empty-card"><h3>No content</h3><p>Upload a plan to populate this section.</p></div>';
+    html+='<div class="plan-empty-card"><h3>No content yet</h3><p>Go to the <b>Plan</b> tab to create your plan.</p></div>';
     return html;
   }
   blocks.forEach(b=>{
@@ -892,7 +996,7 @@ function renderRaceHTML(){
   let html='<div class="sec-head"><div class="sec-eyebrow">Execute</div><div class="sec-title">Race</div></div>';
   html+='<div class="block accent"><h3>Countdown to the line</h3><div class="cd"><span class="big">'+(cd>0?cd:0)+'</span><span class="unit">days to Stage 1 · '+esc(raceDate)+'</span></div></div>';
   if(!blocks.length){
-    html+='<div class="plan-empty-card"><h3>No race content</h3><p>Upload a plan to populate this section.</p></div>';
+    html+='<div class="plan-empty-card"><h3>No race content yet</h3><p>Go to the <b>Plan</b> tab to create your plan.</p></div>';
   } else {
     blocks.forEach(b=>{
       const cls=b.accent?'block accent':'block';
@@ -907,72 +1011,266 @@ function renderRaceHTML(){
 function renderPlanTab(){
   const hasPlan=!!(planData&&planData.weeks&&planData.weeks.length);
   document.getElementById('planNoData').style.display=hasPlan?'none':'';
-  document.getElementById('planSummary').style.display=hasPlan?'':'none';
+  document.getElementById('planExists').style.display=hasPlan?'':'none';
   if(hasPlan){
     document.getElementById('planSumName').textContent=planData.meta.planName||'Training Plan';
     document.getElementById('planSumMeta').textContent=
       planData.weeks.length+' weeks · '+sessTotal()+' sessions · Start: '+(planData.meta.startDate||startISO)+(planData.meta.raceDate?' · Race: '+planData.meta.raceDate:'');
   }
-  document.getElementById('planParsing').style.display='none';
+  document.getElementById('planGenerating').style.display='none';
   document.getElementById('planPreview').style.display='none';
-  document.getElementById('uploadPlanBtn').style.display='';
 }
 
-// ---- PDF UPLOAD ----
-document.getElementById('uploadPlanBtn').onclick=()=>{
-  if(!confirm('WARNING: Your plan must be a PDF in the same format as the original HyperBeast plan document. A different layout may parse incompletely.\n\nUploading a new plan will update today onwards only — past completed sessions are always kept.\n\nContinue and select PDF?')) return;
-  document.getElementById('pdfInput').click();
+// ---- INTAKE FORM ----
+const INTAKE_STEPS=[
+  {id:'event',title:'Your Event',fields:[
+    {id:'eventType',label:'Event type',type:'tap',required:true,opts:[
+      {v:'marathon',l:'Marathon'},{v:'ultra50',l:'50K Ultra'},{v:'ultra100',l:'100K'},{v:'mds',l:'Desert Ultra'},{v:'trail',l:'Trail Race'},{v:'triathlon',l:'Triathlon'},{v:'cycling',l:'Cycling Event'},{v:'other',l:'Other'}
+    ]},
+    {id:'eventName',label:'Event name',type:'text',ph:'e.g. Marathon des Sables 2027',required:true},
+    {id:'raceDate',label:'Race date',type:'date',required:true},
+    {id:'primaryGoal',label:'Primary goal',type:'tap',required:true,opts:[
+      {v:'finish',l:'Just Finish'},{v:'pb',l:'Personal Best'},{v:'time',l:'Hit a Time'},{v:'podium',l:'Podium'}
+    ]},
+    {id:'secondaryGoals',label:'Secondary goals',type:'multi',opts:[
+      {v:'fitness',l:'General fitness'},{v:'weight',l:'Lose weight'},{v:'strength',l:'Build strength'},{v:'adventure',l:'Adventure'},{v:'fun',l:'Have fun'}
+    ]}
+  ]},
+  {id:'about',title:'About You',fields:[
+    {id:'name',label:'Your name',type:'text',ph:'e.g. Chris',required:true},
+    {id:'age',label:'Age',type:'num',ph:'35',unit:'yrs'},
+    {id:'sex',label:'Sex',type:'tap',opts:[{v:'M',l:'Male'},{v:'F',l:'Female'},{v:'pnts',l:'Prefer not to say'}]},
+    {id:'weight',label:'Weight',type:'num',ph:'75',unit:'kg'},
+    {id:'trainingHistory',label:'Training history',type:'tap',required:true,opts:[
+      {v:'beginner',l:'< 1 year'},{v:'2yr',l:'1–3 years'},{v:'5yr',l:'3–5 years'},{v:'expert',l:'5+ years'}
+    ]},
+    {id:'fitnessLevel',label:'Current fitness',type:'tap',required:true,opts:[
+      {v:'low',l:'Getting started'},{v:'moderate',l:'Moderate'},{v:'good',l:'Good'},{v:'high',l:'Very fit'}
+    ]},
+    {id:'injuries',label:'Injuries / conditions',type:'text',ph:'e.g. Left knee, mild asthma (optional)'}
+  ]},
+  {id:'training',title:'Current Training',fields:[
+    {id:'weeklyHours',label:'Weekly training volume',type:'tap',required:true,opts:[
+      {v:'under3',l:'Under 3 hr'},{v:'3to6',l:'3–6 hr'},{v:'6to10',l:'6–10 hr'},{v:'10to15',l:'10–15 hr'},{v:'over15',l:'15+ hr'}
+    ]},
+    {id:'longestRecent',label:'Longest recent session',type:'tap',opts:[
+      {v:'under1',l:'Under 1 hr'},{v:'1to2',l:'1–2 hr'},{v:'2to4',l:'2–4 hr'},{v:'4to6',l:'4–6 hr'},{v:'over6',l:'6+ hr'}
+    ]},
+    {id:'strengthLevel',label:'Strength training experience',type:'tap',opts:[
+      {v:'none',l:'None'},{v:'occasional',l:'Occasional'},{v:'regular',l:'Regular'}
+    ]},
+    {id:'mobilityWork',label:'Mobility / flexibility work',type:'tap',opts:[
+      {v:'none',l:'None'},{v:'occasional',l:'Occasional'},{v:'daily',l:'Daily'}
+    ]},
+    {id:'priorEvents',label:'Previous events (optional)',type:'text',ph:'e.g. 2 half marathons, 1 marathon in 4:20'}
+  ]},
+  {id:'lifestyle',title:'Lifestyle',fields:[
+    {id:'workSchedule',label:'Work schedule',type:'tap',opts:[
+      {v:'standard',l:'Standard 9–5'},{v:'long',l:'Long hours'},{v:'shift',l:'Shift work'},{v:'flexible',l:'Flexible / Remote'}
+    ]},
+    {id:'unavailableDays',label:'Days usually unavailable',type:'multi',opts:[
+      {v:'0',l:'Mon'},{v:'1',l:'Tue'},{v:'2',l:'Wed'},{v:'3',l:'Thu'},{v:'4',l:'Fri'},{v:'5',l:'Sat'},{v:'6',l:'Sun'}
+    ]},
+    {id:'bestTimes',label:'Best training times',type:'multi',opts:[
+      {v:'earlyAM',l:'Early AM (5–7)'},{v:'AM',l:'Morning (7–9)'},{v:'lunch',l:'Lunch'},{v:'PM',l:'After work (5–7)'},{v:'evening',l:'Evening (7+)'},{v:'weekend',l:'Weekends'}
+    ]},
+    {id:'sleepHours',label:'Typical sleep',type:'tap',opts:[
+      {v:'under6',l:'Under 6 hr'},{v:'6to7',l:'6–7 hr'},{v:'7to8',l:'7–8 hr'},{v:'over8',l:'8+ hr'}
+    ]},
+    {id:'stressLevel',label:'Daily stress level',type:'tap',opts:[
+      {v:'low',l:'Low'},{v:'medium',l:'Medium'},{v:'high',l:'High'}
+    ]}
+  ]},
+  {id:'preferences',title:'Preferences',fields:[
+    {id:'enjoyedActivities',label:'Activities I enjoy',type:'multi',opts:[
+      {v:'running',l:'Running'},{v:'cycling',l:'Cycling'},{v:'swimming',l:'Swimming'},{v:'strength',l:'Strength'},{v:'yoga',l:'Yoga / Pilates'},{v:'hiking',l:'Hiking'}
+    ]},
+    {id:'trainingEnvironment',label:'Preferred environment',type:'multi',opts:[
+      {v:'outdoor',l:'Outdoors'},{v:'gym',l:'Gym'},{v:'home',l:'Home'},{v:'track',l:'Track / Road'}
+    ]},
+    {id:'gymAccess',label:'Gym access',type:'tap',opts:[
+      {v:'yes',l:'Full access'},{v:'limited',l:'Limited'},{v:'none',l:'No gym'}
+    ]},
+    {id:'equipmentAvailable',label:'Equipment I have',type:'multi',opts:[
+      {v:'treadmill',l:'Treadmill'},{v:'bike',l:'Bike / Turbo'},{v:'weights',l:'Weights'},{v:'bands',l:'Resistance bands'},{v:'pack',l:'Running pack'}
+    ]}
+  ]},
+  {id:'nutrition',title:'Nutrition',fields:[
+    {id:'dietType',label:'Diet',type:'multi',opts:[
+      {v:'omnivore',l:'Omnivore'},{v:'vegetarian',l:'Vegetarian'},{v:'vegan',l:'Vegan'},{v:'glutenFree',l:'Gluten-free'},{v:'dairyFree',l:'Dairy-free'},{v:'keto',l:'Keto / Low-carb'}
+    ]},
+    {id:'allergies',label:'Allergies / intolerances',type:'text',ph:'e.g. dairy, nuts (optional)'},
+    {id:'eatingPattern',label:'Eating pattern',type:'tap',opts:[
+      {v:'3meals',l:'3 meals'},{v:'4to5',l:'4–5 meals'},{v:'if',l:'Intermittent fasting'},{v:'grazing',l:'Grazing'}
+    ]},
+    {id:'weightGoal',label:'Weight goal',type:'tap',opts:[
+      {v:'lose',l:'Lose weight'},{v:'maintain',l:'Maintain'},{v:'gain',l:'Gain / Build'}
+    ]},
+    {id:'nutritionNotes',label:'Anything else about your nutrition?',type:'area',ph:'e.g. high sugar causes issues, love cooking (optional)'}
+  ]}
+];
+
+let intakeStep=0;
+let intakeData={};
+
+function openIntake(){
+  intakeStep=0;
+  intakeData={};
+  document.getElementById('intakeOverlay').classList.remove('hidden');
+  renderIntakeStep();
+}
+function closeIntake(){
+  document.getElementById('intakeOverlay').classList.add('hidden');
+}
+document.getElementById('intakeCloseBtn').onclick=closeIntake;
+
+function renderIntakeStep(){
+  const step=INTAKE_STEPS[intakeStep];
+  document.getElementById('intakeEyebrow').textContent='Step '+(intakeStep+1)+' of '+INTAKE_STEPS.length;
+  document.getElementById('intakeStepTitle').textContent=step.title;
+  const pct=(intakeStep+1)/INTAKE_STEPS.length*100;
+  document.getElementById('intakeProgFill').style.width=pct+'%';
+  document.getElementById('intakeBackBtn').style.display=intakeStep>0?'':'none';
+  document.getElementById('intakeNextBtn').textContent=intakeStep===INTAKE_STEPS.length-1?'Generate Plan':'Next';
+
+  const saved=intakeData[step.id]||{};
+  let html='';
+  step.fields.forEach(f=>{
+    html+='<span class="intake-section-label">'+esc(f.label)+(f.required?' *':'')+'</span>';
+    const val=saved[f.id];
+    if(f.type==='tap'){
+      html+='<div class="chip-group">';
+      f.opts.forEach(o=>{
+        const on=val===o.v?' on':'';
+        html+='<button class="i-chip'+on+'" data-field="'+esc(f.id)+'" data-val="'+esc(o.v)+'">'+esc(o.l)+'</button>';
+      });
+      html+='</div>';
+    } else if(f.type==='multi'){
+      const arr=Array.isArray(val)?val:[];
+      html+='<div class="chip-group">';
+      f.opts.forEach(o=>{
+        const on=arr.includes(o.v)?' on':'';
+        html+='<button class="i-chip'+on+' multi" data-field="'+esc(f.id)+'" data-val="'+esc(o.v)+'">'+esc(o.l)+'</button>';
+      });
+      html+='</div>';
+    } else if(f.type==='text'){
+      html+='<div class="intake-mb"><input class="intake-text-input" data-field="'+esc(f.id)+'" type="text" placeholder="'+esc(f.ph||'')+'" value="'+esc(val||'')+'" autocomplete="off"></div>';
+    } else if(f.type==='num'){
+      html+='<div class="intake-num-row"><input data-field="'+esc(f.id)+'" type="number" placeholder="'+esc(f.ph||'')+'" value="'+esc(val||'')+'" inputmode="decimal"><span class="unit">'+esc(f.unit||'')+'</span></div>';
+    } else if(f.type==='date'){
+      html+='<input class="intake-date-input" data-field="'+esc(f.id)+'" type="date" value="'+esc(val||'')+'">';
+    } else if(f.type==='area'){
+      html+='<div class="intake-mb"><textarea class="intake-textarea" data-field="'+esc(f.id)+'" placeholder="'+esc(f.ph||'')+'">'+esc(val||'')+'</textarea></div>';
+    }
+  });
+
+  const body=document.getElementById('intakeBody');
+  body.innerHTML=html;
+  body.scrollTop=0;
+
+  // Chip tap listeners
+  body.querySelectorAll('.i-chip').forEach(btn=>{
+    btn.onclick=()=>{
+      const fid=btn.dataset.field;
+      const v=btn.dataset.val;
+      if(!intakeData[step.id]) intakeData[step.id]={};
+      if(btn.classList.contains('multi')){
+        let arr=Array.isArray(intakeData[step.id][fid])?intakeData[step.id][fid]:[];
+        const idx=arr.indexOf(v);
+        if(idx>=0) arr.splice(idx,1); else arr.push(v);
+        intakeData[step.id][fid]=arr;
+        btn.classList.toggle('on',arr.includes(v));
+      } else {
+        intakeData[step.id][fid]=v;
+        body.querySelectorAll('.i-chip[data-field="'+fid+'"]').forEach(b=>b.classList.toggle('on',b.dataset.val===v));
+      }
+    };
+  });
+}
+
+function collectIntakeStep(){
+  const step=INTAKE_STEPS[intakeStep];
+  if(!intakeData[step.id]) intakeData[step.id]={};
+  const body=document.getElementById('intakeBody');
+  body.querySelectorAll('[data-field]').forEach(el=>{
+    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA'){
+      intakeData[step.id][el.dataset.field]=el.value.trim();
+    }
+  });
+}
+
+function validateIntakeStep(){
+  const step=INTAKE_STEPS[intakeStep];
+  const data=intakeData[step.id]||{};
+  for(const f of step.fields){
+    if(!f.required) continue;
+    const v=data[f.id];
+    if(!v||(typeof v==='string'&&!v.trim())){
+      alert('Please fill in: '+f.label);
+      return false;
+    }
+  }
+  return true;
+}
+
+document.getElementById('intakeNextBtn').onclick=async()=>{
+  collectIntakeStep();
+  if(!validateIntakeStep()) return;
+  if(intakeStep<INTAKE_STEPS.length-1){
+    intakeStep++;
+    renderIntakeStep();
+  } else {
+    // Final step — generate
+    closeIntake();
+    await generatePlan();
+  }
 };
 
-document.getElementById('pdfInput').onchange=async e=>{
-  const file=e.target.files[0];
-  e.target.value='';
-  if(!file) return;
-  await uploadAndParsePDF(file);
+document.getElementById('intakeBackBtn').onclick=()=>{
+  collectIntakeStep();
+  intakeStep--;
+  renderIntakeStep();
 };
 
-async function uploadAndParsePDF(file){
-  document.getElementById('planParsing').style.display='';
-  document.getElementById('planPreview').style.display='none';
-  document.getElementById('uploadPlanBtn').style.display='none';
+// ---- PLAN GENERATION ----
+async function generatePlan(){
+  switchTab('plan');
   document.getElementById('planNoData').style.display='none';
-  document.getElementById('planSummary').style.display='none';
+  document.getElementById('planExists').style.display='none';
+  document.getElementById('planPreview').style.display='none';
+  document.getElementById('planGenerating').style.display='';
 
   try{
-    const fd=new FormData();
-    fd.append('pdf',file);
-    const res=await fetch('/api/parse-plan',{method:'POST',body:fd});
+    const res=await fetch('/api/generate-plan',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({intake:intakeData})
+    });
     const parsed=await res.json();
     if(!res.ok||parsed.error) throw new Error(parsed.error||'Server error '+res.status);
     showPlanPreview(parsed);
   }catch(e){
-    document.getElementById('planParsing').style.display='none';
-    document.getElementById('uploadPlanBtn').style.display='';
+    document.getElementById('planGenerating').style.display='none';
     renderPlanTab();
-    alert('Failed to parse plan: '+e.message);
+    alert('Failed to generate plan: '+e.message);
   }
 }
 
 function showPlanPreview(parsed){
   pendingPlan=parsed;
   const m=parsed.meta||{};
-
-  document.getElementById('planParsing').style.display='none';
+  document.getElementById('planGenerating').style.display='none';
   document.getElementById('planPreview').style.display='';
-
-  document.getElementById('previewTitle').textContent=m.planName||'Parsed plan';
+  document.getElementById('previewTitle').textContent=m.planName||'Your plan is ready';
   document.getElementById('previewMeta').textContent=
     (m.weekCount||parsed.weeks?.length||0)+' weeks · '+(m.totalSessions||0)+' sessions'+
     (m.startDate?' · Start: '+m.startDate:'')+
     (m.raceDate?' · Race: '+m.raceDate:'');
-
-  // Show merge preview if existing plan
   const mergeEl=document.getElementById('mergeInfo');
   if(planData&&planData.weeks&&planData.weeks.length){
-    const today=todayISO();
-    const existStart=planData.meta.startDate||startISO;
-    const newStart=m.startDate||existStart;
     let pastCount=0;
+    const existStart=planData.meta.startDate||startISO;
+    const today=todayISO();
     (planData.weeks||[]).forEach(week=>{
       (week.days||[]).forEach(day=>{
         const dk=isoDate(dateAdd(existStart,(week.n-1)*7+day.dow));
@@ -980,19 +1278,14 @@ function showPlanPreview(parsed){
       });
     });
     mergeEl.style.display='';
-    mergeEl.textContent='~'+pastCount+' past sessions will be kept · future sessions replaced from today';
+    mergeEl.textContent='~'+pastCount+' past sessions kept · future sessions replaced from today';
   } else {
     mergeEl.style.display='none';
   }
-
   document.getElementById('doItInput').value='';
   document.getElementById('commitPlanBtn').disabled=false;
+  document.getElementById('commitPlanBtn').textContent='Commit plan';
 }
-
-document.getElementById('doItInput').addEventListener('input',e=>{
-  const v=e.target.value.trim();
-  document.getElementById('commitPlanBtn').disabled=false; // always allow tap
-});
 
 document.getElementById('doItInput').addEventListener('keydown',async e=>{
   if(e.key==='Enter'&&e.target.value.trim()==='DO IT') await handleCommitPlan();
@@ -1001,7 +1294,7 @@ document.getElementById('doItInput').addEventListener('keydown',async e=>{
 document.getElementById('commitPlanBtn').onclick=async()=>{
   const inp=document.getElementById('doItInput').value.trim();
   if(inp&&inp!=='DO IT'){
-    alert('Type "DO IT" in the box, or just tap Commit plan to confirm.');
+    alert('Type DO IT in the box, or just tap Commit plan to confirm.');
     return;
   }
   await handleCommitPlan();
@@ -1024,19 +1317,206 @@ async function handleCommitPlan(){
     const p=currentPos();
     viewWeek=Math.max(1,Math.min(p.week,planWkTotal()));
     renderWeek();renderStatus();
-    // Brief confirmation
-    const mergeEl=document.getElementById('mergeInfo');
-    document.getElementById('planPreview').style.display='none';
     const conf=document.createElement('div');
     conf.className='merge-result';
     conf.textContent=kept+' past session'+(kept!==1?'s':'')+' kept · '+updated+' future session'+(updated!==1?'s':'')+' updated';
-    document.getElementById('view-plan').insertBefore(conf,document.getElementById('uploadPlanBtn'));
+    document.getElementById('planExists').prepend(conf);
     setTimeout(()=>conf.remove(),8000);
   }catch(e){
     alert('Failed to save plan: '+e.message);
     document.getElementById('commitPlanBtn').disabled=false;
     document.getElementById('commitPlanBtn').textContent='Commit plan';
   }
+}
+
+// ---- COACH CHAT ----
+let coachHistory=[];
+let coachPendingChange=null;
+
+function openCoach(){
+  const overlay=document.getElementById('coachOverlay');
+  overlay.classList.add('open');
+  document.getElementById('coachHdSub').textContent=planData?.meta?.planName||'Ask me anything';
+  if(coachHistory.length===0){
+    const greeting=planData?.meta?.planName
+      ?'Hey! I\'m Coach. Your plan is loaded — I can help you adjust sessions, answer questions about training, nutrition, or race strategy. What\'s on your mind?'
+      :'Hey! I\'m Coach. You don\'t have a plan yet, but I can answer questions about training, nutrition, or your event. What\'s on your mind?';
+    appendCoachMsg('ai',greeting);
+    coachHistory.push({role:'assistant',content:greeting});
+  }
+  setupCoachKeyboard();
+  setTimeout(()=>{
+    const msgs=document.getElementById('coachMsgs');
+    msgs.scrollTop=msgs.scrollHeight;
+    document.getElementById('coachInput').focus();
+  },150);
+}
+
+function closeCoach(){
+  document.getElementById('coachOverlay').classList.remove('open');
+  teardownCoachKeyboard();
+  document.getElementById('coachInput').blur();
+}
+
+document.getElementById('coachCloseBtn').onclick=closeCoach;
+document.getElementById('openCoachBtn').onclick=openCoach;
+
+function appendCoachMsg(role,text){
+  const msgs=document.getElementById('coachMsgs');
+  const div=document.createElement('div');
+  div.className='coach-msg '+role;
+  div.innerHTML=formatCoachMsg(text);
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  return div;
+}
+
+function formatCoachMsg(text){
+  // Render code blocks and basic formatting
+  let html=esc(text||'');
+  html=html.replace(/```json\n?([\s\S]*?)```/g,(_,c)=>'<pre><code>'+c.trim()+'</code></pre>');
+  html=html.replace(/`([^`]+)`/g,'<code>$1</code>');
+  html=html.replace(/\n/g,'<br>');
+  // Highlight "DO IT" trigger phrase
+  html=html.replace(/Sounds like we have a plan[\s\S]*?type DO IT in caps\./g,m=>{
+    return '<span style="color:var(--ember)">'+m+'</span><br><button class="coach-do-it" onclick="handleCoachDoIt()">Type DO IT to commit</button>';
+  });
+  return html;
+}
+
+async function sendCoachMessage(){
+  const input=document.getElementById('coachInput');
+  const text=input.value.trim();
+  if(!text) return;
+  input.value='';
+  input.style.height='';
+  document.getElementById('coachSendBtn').disabled=true;
+
+  appendCoachMsg('user',text);
+
+  const userMsg={role:'user',content:text};
+
+  // Check for DO IT confirmation
+  if(text==='DO IT'&&coachPendingChange){
+    await applyCoachChange(coachPendingChange);
+    coachHistory.push(userMsg);
+    return;
+  }
+
+  coachHistory.push(userMsg);
+
+  // Show typing indicator
+  const typing=document.createElement('div');
+  typing.className='coach-typing';
+  typing.innerHTML='<span></span><span></span><span></span>';
+  document.getElementById('coachMsgs').appendChild(typing);
+  document.getElementById('coachMsgs').scrollTop=document.getElementById('coachMsgs').scrollHeight;
+
+  try{
+    const context=planData?.meta?{
+      planName:planData.meta.planName,
+      weekCount:planData.weeks?.length,
+      raceDate:planData.meta.raceDate
+    }:null;
+    const res=await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:coachHistory,context})
+    });
+    const data=await res.json();
+    typing.remove();
+    if(!res.ok||data.error) throw new Error(data.error||'Coach error');
+    const reply=(data.content?.[0]?.text||'').trim();
+    coachHistory.push({role:'assistant',content:reply});
+    appendCoachMsg('ai',reply);
+
+    // Extract pending change from JSON block
+    const match=reply.match(/```json\s*([\s\S]*?)```/);
+    if(match){
+      try{ coachPendingChange=JSON.parse(match[1].trim()); }catch(_){ coachPendingChange=null; }
+    } else {
+      coachPendingChange=null;
+    }
+  }catch(e){
+    typing.remove();
+    appendCoachMsg('ai','Sorry, something went wrong: '+e.message);
+  }
+  document.getElementById('coachSendBtn').disabled=false;
+}
+
+async function handleCoachDoIt(){
+  if(!coachPendingChange) return;
+  await applyCoachChange(coachPendingChange);
+}
+
+async function applyCoachChange(change){
+  coachPendingChange=null;
+  const t=change.type;
+  try{
+    if(t==='add_session'){
+      const sess={week_n:change.week_n,dow:change.dow,title:change.title,km:change.km||null,session_type:change.session_type||'EASY',note:change.note||''};
+      const saved=await syncAddCustomSession(sess);
+      customSessions.push(saved||{id:Date.now(),...sess});
+      store.set(LS_CUSTOM,JSON.stringify(customSessions));
+      renderWeek();
+      appendCoachMsg('ai','Done — session added to Week '+change.week_n+'.');
+    } else if(t==='delete_session'){
+      customSessions=customSessions.filter(s=>s.id!==change.id);
+      if(currentUser){
+        await _sb.from('custom_sessions').delete().eq('id',change.id).eq('user_id',currentUser.id);
+      }
+      store.set(LS_CUSTOM,JSON.stringify(customSessions));
+      renderWeek();
+      appendCoachMsg('ai','Done — session removed.');
+    } else if(t==='change_start'){
+      startISO=change.start_iso;
+      if(planData) planData.meta.startDate=startISO;
+      store.set(LS_START,startISO);
+      await syncStartDate(startISO);
+      renderWeek();renderStatus();
+      appendCoachMsg('ai','Done — plan start updated to '+startISO+'.');
+    } else {
+      appendCoachMsg('ai','Unknown change type: '+t);
+    }
+    coachHistory.push({role:'assistant',content:'Change applied.'});
+  }catch(e){
+    appendCoachMsg('ai','Failed to apply change: '+e.message);
+  }
+}
+
+// Coach input auto-resize + send
+const coachInputEl=document.getElementById('coachInput');
+coachInputEl.addEventListener('input',()=>{
+  coachInputEl.style.height='auto';
+  coachInputEl.style.height=Math.min(coachInputEl.scrollHeight,120)+'px';
+  document.getElementById('coachSendBtn').disabled=!coachInputEl.value.trim();
+});
+coachInputEl.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendCoachMessage();}
+});
+document.getElementById('coachSendBtn').onclick=sendCoachMessage;
+
+// ---- COACH KEYBOARD FIX (iOS visualViewport) ----
+let _vvHandler=null;
+function setupCoachKeyboard(){
+  if(!window.visualViewport) return;
+  _vvHandler=()=>{
+    const vv=window.visualViewport;
+    const overlay=document.getElementById('coachOverlay');
+    if(!overlay.classList.contains('open')) return;
+    const kbH=Math.max(0,window.innerHeight-vv.height-vv.pageTop);
+    document.getElementById('coachBar').style.paddingBottom=(kbH>0?kbH+10:10)+'px';
+    setTimeout(()=>{ document.getElementById('coachMsgs').scrollTop=document.getElementById('coachMsgs').scrollHeight; },50);
+  };
+  window.visualViewport.addEventListener('resize',_vvHandler);
+  window.visualViewport.addEventListener('scroll',_vvHandler);
+}
+function teardownCoachKeyboard(){
+  if(!_vvHandler||!window.visualViewport) return;
+  window.visualViewport.removeEventListener('resize',_vvHandler);
+  window.visualViewport.removeEventListener('scroll',_vvHandler);
+  document.getElementById('coachBar').style.paddingBottom='';
+  _vvHandler=null;
 }
 
 // ---- TABS ----
@@ -1103,7 +1583,7 @@ document.getElementById('addSaveBtn').onclick=async()=>{
 };
 
 // ---- BOOT ----
-function bootApp(){
+function bootApp(isFirstLogin){
   // Fast paint from cache
   const cp=store.get(LS_PLAN);
   const cd=store.get(LS_DONE);
@@ -1125,6 +1605,10 @@ function bootApp(){
       const p2=currentPos();
       viewWeek=Math.max(1,Math.min(p2.week||1,Math.max(planWkTotal(),1)));
       renderWeek();renderStatus();renderSections();
+      // Show intake on first login if no plan exists
+      if(isFirstLogin&&!planData){
+        setTimeout(()=>openIntake(),400);
+      }
     });
   }
 }
@@ -1137,7 +1621,7 @@ function bootApp(){
     if(event==='SIGNED_IN'&&session){
       currentUser=session.user;
       await loadUserData();
-      bootApp();
+      bootApp(true);
     }else if(event==='SIGNED_OUT'){
       currentUser=null;planData=null;done={};customSessions=[];
       store.set(LS_DONE,'{}');store.set(LS_CUSTOM,'[]');store.set(LS_PLAN,'');
@@ -1149,7 +1633,7 @@ function bootApp(){
   if(session){
     currentUser=session.user;
     await loadUserData();
-    bootApp();
+    bootApp(false);
   }else{
     showLoginPanel();
     showAuthWall();
