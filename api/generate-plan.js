@@ -1,4 +1,5 @@
-export const config = { runtime: 'edge' };
+// Node.js serverless (not edge) — needs longer timeout for two Opus calls
+export const config = { maxDuration: 120 };
 
 function getNextMonday(isoDate) {
   const d = new Date(isoDate + 'T00:00:00Z');
@@ -8,27 +9,24 @@ function getNextMonday(isoDate) {
   return d.toISOString().slice(0, 10);
 }
 
-export default async function handler(req) {
+export default async function handler(req, res) {
+  res.setHeader('Cache-Control', 'no-store');
+
   if (req.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 });
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return new Response(JSON.stringify({ error: 'Server not configured' }), {
-      status: 500, headers: { 'Content-Type': 'application/json' }
-    });
+    return res.status(500).json({ error: 'Server not configured' });
   }
 
   let intake;
   try {
-    const body = await req.json();
-    intake = body.intake;
+    intake = req.body?.intake;
     if (!intake) throw new Error('missing intake');
   } catch (e) {
-    return new Response(JSON.stringify({ error: 'Invalid request: ' + e.message }), {
-      status: 400, headers: { 'Content-Type': 'application/json' }
-    });
+    return res.status(400).json({ error: 'Invalid request: ' + e.message });
   }
 
   const today = new Date().toISOString().slice(0, 10);
@@ -85,7 +83,7 @@ Rules:
 - Respect unavailable days: ${JSON.stringify(intake.lifestyle?.unavailable || [])}
 - Rest days = no entry in days array for that dow
 - Phase structure: build phases, recovery weeks every 4th, peak, taper, race
-- week names should be single evocative ALL CAPS words (FOUNDATION, IGNITE, GRIND, SCAR, etc.)
+- Week names should be single evocative ALL CAPS words (FOUNDATION, IGNITE, GRIND, SCAR, etc.)
 - Return ONLY valid JSON`;
 
   const SECTIONS_PROMPT = `You are an elite endurance coach. Generate the four content sections for this athlete's training app.
@@ -113,7 +111,7 @@ Rules:
 - Return ONLY valid JSON`;
 
   async function callClaude(prompt, maxTokens) {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -126,11 +124,14 @@ Rules:
         messages: [{ role: 'user', content: prompt }]
       })
     });
-    if (!res.ok) throw new Error('Claude API error ' + res.status + ': ' + await res.text());
-    const data = await res.json();
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error('Claude API error ' + response.status + ': ' + errText);
+    }
+    const data = await response.json();
     const text = (data.content?.[0]?.text || '').trim();
     const match = text.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error('No JSON in response. Got: ' + text.slice(0, 200));
+    if (!match) throw new Error('No JSON in response. Got: ' + text.slice(0, 300));
     return JSON.parse(match[0]);
   }
 
@@ -146,16 +147,12 @@ Rules:
       );
     }
 
-    return new Response(JSON.stringify({
+    return res.status(200).json({
       meta: scheduleData.meta,
       weeks: scheduleData.weeks || [],
       sections: sectionsData
-    }), {
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
     });
   } catch (e) {
-    return new Response(JSON.stringify({ error: 'Generation failed: ' + e.message }), {
-      status: 500, headers: { 'Content-Type': 'application/json' }
-    });
+    return res.status(500).json({ error: 'Generation failed: ' + e.message });
   }
 }

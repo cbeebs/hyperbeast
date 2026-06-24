@@ -1,4 +1,7 @@
 {
+  "functions": {
+    "api/generate-plan.js": { "maxDuration": 120 }
+  },
   "headers": [
     {
       "source": "/api/(.*)",
