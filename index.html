@@ -1617,27 +1617,49 @@ function bootApp(isFirstLogin){
   showCheckingPanel('Loading…');
   showAuthWall();
 
-  _sb.auth.onAuthStateChange(async(event,session)=>{
-    if(event==='SIGNED_IN'&&session){
-      currentUser=session.user;
+  // Fallback: if still loading after 8s, drop to login screen
+  const loadingTimeout = setTimeout(()=>{
+    if(document.getElementById('authWall').classList.contains('hidden')) return;
+    showLoginPanel();
+    showAuthWall();
+  }, 8000);
+
+  async function doLogin(session, isNew){
+    clearTimeout(loadingTimeout);
+    currentUser=session.user;
+    try{
       await loadUserData();
-      bootApp(true);
+      bootApp(isNew);
+    }catch(e){
+      console.error('Boot error:',e);
+      currentUser=null;
+      showLoginPanel();
+      showAuthWall();
+    }
+  }
+
+  // Check existing session first
+  const{data:{session}}=await _sb.auth.getSession();
+  if(session){
+    await doLogin(session, false);
+  }else{
+    clearTimeout(loadingTimeout);
+    showLoginPanel();
+    showAuthWall();
+  }
+
+  // Listen for future sign-in / sign-out events
+  _sb.auth.onAuthStateChange(async(event,session)=>{
+    if(event==='SIGNED_IN'&&session&&!currentUser){
+      // Only fires here if getSession() above returned no session (new login)
+      await doLogin(session, true);
     }else if(event==='SIGNED_OUT'){
+      clearTimeout(loadingTimeout);
       currentUser=null;planData=null;done={};customSessions=[];
       store.set(LS_DONE,'{}');store.set(LS_CUSTOM,'[]');store.set(LS_PLAN,'');
       showLoginPanel();showAuthWall();
     }
   });
-
-  const{data:{session}}=await _sb.auth.getSession();
-  if(session){
-    currentUser=session.user;
-    await loadUserData();
-    bootApp(false);
-  }else{
-    showLoginPanel();
-    showAuthWall();
-  }
 })();
 
 if('serviceWorker' in navigator){
