@@ -1625,12 +1625,13 @@ function bootApp(isFirstLogin){
   }, 8000);
 
   async function doLogin(session, isNew){
-    clearTimeout(loadingTimeout);
     currentUser=session.user;
     try{
       await loadUserData();
+      clearTimeout(loadingTimeout); // only cancel once load succeeds
       bootApp(isNew);
     }catch(e){
+      clearTimeout(loadingTimeout);
       console.error('Boot error:',e);
       currentUser=null;
       showLoginPanel();
