@@ -38,7 +38,7 @@ export default async function handler(req) {
 
   async function callClaude(prompt, maxTokens, label) {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 22000); // 22s hard limit
+    const timeout = setTimeout(() => controller.abort(), 18000); // 18s — leaves room before Vercel's 25s wall
     try {
       const r = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -49,7 +49,7 @@ export default async function handler(req) {
           'anthropic-version': '2023-06-01'
         },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
+          model: 'claude-haiku-4-5-20251001',
           max_tokens: maxTokens,
           messages: [{ role: 'user', content: prompt }]
         })
