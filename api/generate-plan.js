@@ -1,5 +1,5 @@
 // Node.js serverless (not edge) — needs longer timeout for two Opus calls
-export const config = { maxDuration: 120 };
+export const config = { maxDuration: 60 };
 
 function getNextMonday(isoDate) {
   const d = new Date(isoDate + 'T00:00:00Z');
@@ -119,7 +119,7 @@ Rules:
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-opus-4-8',
+        model: 'claude-sonnet-4-6',
         max_tokens: maxTokens,
         messages: [{ role: 'user', content: prompt }]
       })
