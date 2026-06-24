@@ -1,32 +1,36 @@
-// Node.js serverless (not edge) — needs longer timeout for two Opus calls
-export const config = { maxDuration: 60 };
+export const config = { runtime: 'edge' };
 
 function getNextMonday(isoDate) {
   const d = new Date(isoDate + 'T00:00:00Z');
-  const day = d.getUTCDay(); // 0=Sun, 1=Mon
+  const day = d.getUTCDay();
   const daysUntil = day === 1 ? 0 : day === 0 ? 1 : 8 - day;
   d.setUTCDate(d.getUTCDate() + daysUntil);
   return d.toISOString().slice(0, 10);
 }
 
-export default async function handler(req, res) {
-  res.setHeader('Cache-Control', 'no-store');
-
+export default async function handler(req) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405, headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return res.status(500).json({ error: 'Server not configured' });
+    return new Response(JSON.stringify({ error: 'Server not configured' }), {
+      status: 500, headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   let intake;
   try {
-    intake = req.body?.intake;
+    const body = await req.json();
+    intake = body?.intake;
     if (!intake) throw new Error('missing intake');
   } catch (e) {
-    return res.status(400).json({ error: 'Invalid request: ' + e.message });
+    return new Response(JSON.stringify({ error: 'Invalid request: ' + e.message }), {
+      status: 400, headers: { 'Content-Type': 'application/json' }
+    });
   }
 
   const today = new Date().toISOString().slice(0, 10);
@@ -42,34 +46,26 @@ ${JSON.stringify(intake, null, 2)}
 Plan start date (Monday Week 1): ${startDate}
 Race date: ${raceDate}
 
-Return ONLY valid JSON with this exact structure — no explanation, no markdown:
+Return ONLY valid JSON — no markdown, no explanation:
 {
   "meta": {
     "athleteName": "${athleteName}",
-    "planName": "string (evocative plan name)",
+    "planName": "string",
     "raceName": "${intake.event?.name || 'Race'}",
     "raceDate": "${raceDate}",
     "startDate": "${startDate}",
-    "weekCount": <integer>,
-    "totalSessions": <integer>
+    "weekCount": 0,
+    "totalSessions": 0
   },
   "weeks": [
     {
       "n": 1,
-      "name": "WEEK NAME (ALL CAPS, one evocative word or phrase)",
-      "phase": "P0",
-      "phaseFull": "Phase full name",
-      "creed": "Short inspirational week motto",
+      "name": "FOUNDATION",
+      "phase": "P1",
+      "phaseFull": "Phase name",
+      "creed": "Week motto",
       "days": [
-        {
-          "dow": 0,
-          "t": "EASY",
-          "ti": "Session title",
-          "km": 10.0,
-          "z": "Z2",
-          "tag": "short tag",
-          "dt": "Detailed session description with specific instructions"
-        }
+        { "dow": 0, "t": "EASY", "ti": "Title", "km": 10, "z": "Z2", "tag": "tag", "dt": "Description" }
       ]
     }
   ]
@@ -77,41 +73,31 @@ Return ONLY valid JSON with this exact structure — no explanation, no markdown
 
 Rules:
 - dow: 0=Mon 1=Tue 2=Wed 3=Thu 4=Fri 5=Sat 6=Sun
-- t must be one of: EASY LONG HILLS TEMPO B2B PACK STRENGTH SHAKEDOWN SAND RACE TRAVEL TEST
-- km: null for STRENGTH/TRAVEL sessions if no distance
-- Include ALL weeks from ${startDate} to ${raceDate} — no gaps, no truncation
-- Respect unavailable days: ${JSON.stringify(intake.lifestyle?.unavailable || [])}
-- Rest days = no entry in days array for that dow
-- Phase structure: build phases, recovery weeks every 4th, peak, taper, race
-- Week names should be single evocative ALL CAPS words (FOUNDATION, IGNITE, GRIND, SCAR, etc.)
+- t: EASY LONG HILLS TEMPO B2B PACK STRENGTH SHAKEDOWN SAND RACE TRAVEL TEST
+- km: null for STRENGTH/TRAVEL
+- ALL weeks from ${startDate} to ${raceDate}, no gaps
+- Unavailable days (skip): ${JSON.stringify(intake.lifestyle?.unavailable || [])}
+- Recovery week every 4th, taper last 2-3
 - Return ONLY valid JSON`;
 
-  const SECTIONS_PROMPT = `You are an elite endurance coach. Generate the four content sections for this athlete's training app.
+  const SECTIONS_PROMPT = `You are an elite endurance coach. Write four training app content sections for this athlete.
 
-ATHLETE INTAKE DATA:
-${JSON.stringify(intake, null, 2)}
+INTAKE: ${JSON.stringify(intake)}
 
-Return ONLY valid JSON — no explanation, no markdown:
+Return ONLY valid JSON:
 {
-  "strategy": [{"title": "string", "body": "string", "accent": false}],
-  "strength": [{"title": "string", "body": "string", "accent": false}],
-  "fuel": [{"title": "string", "body": "string", "accent": false}],
-  "race": [{"title": "string", "body": "string", "accent": false}]
+  "strategy": [{"title":"string","body":"string","accent":false}],
+  "strength": [{"title":"string","body":"string","accent":false}],
+  "fuel":     [{"title":"string","body":"string","accent":false}],
+  "race":     [{"title":"string","body":"string","accent":false}]
 }
 
-Rules:
-- Each section = array of content blocks/cards (4-8 blocks per section)
-- accent: true for the single most important highlighted block per section (max 1)
-- body may use \\n for line breaks, \\n\\n for paragraph breaks
-- Be specific to THIS athlete — reference their event, goals, constraints
-- Strategy: periodisation, training philosophy, HR zones, phase breakdown
-- Strength: S&C programme tailored to their event and experience
-- Fuel: nutrition plan, race nutrition, daily eating guidance specific to their diet
-- Race: race-day strategy, pacing, kit, logistics specific to their event
-- Return ONLY valid JSON`;
+4-6 blocks per section. accent:true for one key block per section.
+body: use \\n for line breaks. Be specific to this athlete's event and goals.
+Return ONLY valid JSON`;
 
   async function callClaude(prompt, maxTokens) {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -124,35 +110,34 @@ Rules:
         messages: [{ role: 'user', content: prompt }]
       })
     });
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error('Claude API error ' + response.status + ': ' + errText);
-    }
-    const data = await response.json();
-    const text = (data.content?.[0]?.text || '').trim();
+    if (!r.ok) throw new Error('Claude ' + r.status + ': ' + await r.text());
+    const d = await r.json();
+    const text = (d.content?.[0]?.text || '').trim();
     const match = text.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error('No JSON in response. Got: ' + text.slice(0, 300));
+    if (!match) throw new Error('No JSON. Got: ' + text.slice(0, 150));
     return JSON.parse(match[0]);
   }
 
   try {
-    const [scheduleData, sectionsData] = await Promise.all([
-      callClaude(SCHEDULE_PROMPT, 16000),
-      callClaude(SECTIONS_PROMPT, 8000)
+    const [schedule, sections] = await Promise.all([
+      callClaude(SCHEDULE_PROMPT, 12000),
+      callClaude(SECTIONS_PROMPT, 6000)
     ]);
 
-    if (!scheduleData.meta.totalSessions && scheduleData.weeks) {
-      scheduleData.meta.totalSessions = scheduleData.weeks.reduce(
-        (s, w) => s + (w.days?.length || 0), 0
-      );
+    if (!schedule.meta.totalSessions && schedule.weeks) {
+      schedule.meta.totalSessions = schedule.weeks.reduce((s, w) => s + (w.days?.length || 0), 0);
     }
 
-    return res.status(200).json({
-      meta: scheduleData.meta,
-      weeks: scheduleData.weeks || [],
-      sections: sectionsData
+    return new Response(JSON.stringify({
+      meta: schedule.meta,
+      weeks: schedule.weeks || [],
+      sections
+    }), {
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
     });
   } catch (e) {
-    return res.status(500).json({ error: 'Generation failed: ' + e.message });
+    return new Response(JSON.stringify({ error: 'Generation failed: ' + e.message }), {
+      status: 500, headers: { 'Content-Type': 'application/json' }
+    });
   }
 }
