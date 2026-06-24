@@ -175,13 +175,14 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 .foot b{color:var(--dim)}
 
 .nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:480px;z-index:50;
-  display:flex;justify-content:space-around;align-items:stretch;
-  padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+  display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;
+  padding:8px 4px calc(8px + env(safe-area-inset-bottom));
   background:rgba(5,7,10,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
   border-top:1px solid var(--line)}
-.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 2px;color:var(--faint);transition:.15s}
-.nav button .nl{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase}
-.nav button svg{width:22px;height:22px}
+.nav::-webkit-scrollbar{display:none}
+.nav button{flex:0 0 56px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;color:var(--faint);transition:.15s}
+.nav button .nl{font-family:var(--mono);font-size:8px;letter-spacing:.06em;text-transform:uppercase}
+.nav button svg{width:20px;height:20px}
 .nav button.active{color:var(--ember)}
 .nav button:active{transform:scale(.92)}
 
@@ -390,8 +391,8 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
 <section class="view" id="view-fuel"></section>
 <section class="view" id="view-race"></section>
 
-<section class="view" id="view-plan">
-  <div class="sec-head"><div class="sec-eyebrow">Your training plan</div><div class="sec-title">Plan</div></div>
+<section class="view" id="view-settings">
+  <div class="sec-head"><div class="sec-eyebrow">Your training plan</div><div class="sec-title">Settings</div></div>
 
   <!-- No plan: create CTA -->
   <div id="planNoData">
@@ -437,13 +438,31 @@ button{font-family:inherit;color:inherit;background:none;border:none;cursor:poin
   </div>
 </section>
 
+<section class="view" id="view-track">
+  <div class="sec-head"><div class="sec-eyebrow">Activity tracking</div><div class="sec-title">Track</div></div>
+  <div class="block accent"><h3>Awaiting connection</h3><p>This section will connect to your tracking data once integration is live.</p></div>
+</section>
+
+<section class="view" id="view-kit">
+  <div class="sec-head"><div class="sec-eyebrow">Gear & equipment</div><div class="sec-title">Kit</div></div>
+  <div class="block accent"><h3>Awaiting connection</h3><p>Your kit list and gear recommendations will appear here once integration is live.</p></div>
+</section>
+
+<section class="view" id="view-maria">
+  <div class="sec-head"><div class="sec-eyebrow">Your coach</div><div class="sec-title">Maria</div></div>
+  <div class="block accent"><h3>Awaiting connection</h3><p>Maria will be available here once integration is live.</p></div>
+</section>
+
 <nav class="nav" id="nav">
   <button data-tab="train" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4l3-1 2 2"/><path d="M6 3v6a3 3 0 0 0 3 3h6a3 3 0 0 1 3 3v6"/><path d="M16 19l2 2 2-2"/></svg><span class="nl">Train</span></button>
   <button data-tab="strategy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/></svg><span class="nl">Strategy</span></button>
   <button data-tab="strength"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 9v6M20 9v6M7 7v10M17 7v10"/><path d="M7 12h10"/></svg><span class="nl">Strength</span></button>
   <button data-tab="fuel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2s5 5.5 5 10a5 5 0 0 1-10 0c0-1.5.6-3 1.5-4.3"/></svg><span class="nl">Fuel</span></button>
   <button data-tab="race"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 3v18"/><path d="M5 4h11l-1.5 4L16 12H5"/></svg><span class="nl">Race</span></button>
-  <button data-tab="plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg><span class="nl">Plan</span></button>
+  <button data-tab="track"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="nl">Track</span></button>
+  <button data-tab="kit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="nl">Kit</span></button>
+  <button data-tab="maria"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="nl">Maria</span></button>
+  <button data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span class="nl">Settings</span></button>
 </nav>
 
 <div class="scrim" id="scrim"></div>
@@ -830,7 +849,7 @@ function renderWeek(){
     document.getElementById('todayJump').style.display='none';
     document.getElementById('prevWk').disabled=true;
     document.getElementById('nextWk').disabled=true;
-    document.getElementById('dayList').innerHTML='<div class="plan-empty-card"><h3>No plan yet</h3><p>Go to the <b>Plan</b> tab to create your training plan.</p></div>';
+    document.getElementById('dayList').innerHTML='<div class="plan-empty-card"><h3>No plan yet</h3><p>Go to the <b>Settings</b> tab to create your training plan.</p></div>';
     updateProgress(0,0);
     return;
   }
@@ -972,7 +991,7 @@ function renderBlocksHTML(blocks, eyebrow, title, sub){
   if(sub) html+='<div class="sec-sub">'+esc(sub)+'</div>';
   html+='</div>';
   if(!blocks||!blocks.length){
-    html+='<div class="plan-empty-card"><h3>No content yet</h3><p>Go to the <b>Plan</b> tab to create your plan.</p></div>';
+    html+='<div class="plan-empty-card"><h3>No content yet</h3><p>Go to the <b>Settings</b> tab to create your plan.</p></div>';
     return html;
   }
   blocks.forEach(b=>{
@@ -996,7 +1015,7 @@ function renderRaceHTML(){
   let html='<div class="sec-head"><div class="sec-eyebrow">Execute</div><div class="sec-title">Race</div></div>';
   html+='<div class="block accent"><h3>Countdown to the line</h3><div class="cd"><span class="big">'+(cd>0?cd:0)+'</span><span class="unit">days to Stage 1 · '+esc(raceDate)+'</span></div></div>';
   if(!blocks.length){
-    html+='<div class="plan-empty-card"><h3>No race content yet</h3><p>Go to the <b>Plan</b> tab to create your plan.</p></div>';
+    html+='<div class="plan-empty-card"><h3>No race content yet</h3><p>Go to the <b>Settings</b> tab to create your plan.</p></div>';
   } else {
     blocks.forEach(b=>{
       const cls=b.accent?'block accent':'block';
@@ -1234,7 +1253,7 @@ document.getElementById('intakeBackBtn').onclick=()=>{
 
 // ---- PLAN GENERATION ----
 async function generatePlan(){
-  switchTab('plan');
+  switchTab('settings');
   document.getElementById('planNoData').style.display='none';
   document.getElementById('planExists').style.display='none';
   document.getElementById('planPreview').style.display='none';
@@ -1557,7 +1576,7 @@ function switchTab(tab){
     const rb=document.getElementById('raceSettingsBtn');
     if(rb) rb.onclick=openSheet;
   }
-  if(tab==='plan') renderPlanTab();
+  if(tab==='settings') renderPlanTab();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('button');if(b&&b.dataset.tab)switchTab(b.dataset.tab);});
