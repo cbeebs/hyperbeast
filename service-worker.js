@@ -1,4 +1,4 @@
-const CACHE='hyperbeast-v3';
+const CACHE='hyperbeast-v4';
 const ASSETS=['./','./index.html','./manifest.webmanifest',
   './icons/icon-180.png','./icons/icon-192.png','./icons/icon-512.png','./icons/icon-maskable-512.png'];
 
